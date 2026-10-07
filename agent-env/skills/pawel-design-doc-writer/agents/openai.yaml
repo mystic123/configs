@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pawel Design Doc Writer"
+  short_description: "Draft rigorous internal engineering design docs"
+  default_prompt: "Use $pawel-design-doc-writer to draft a concise internal design doc for this engineering proposal."

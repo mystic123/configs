@@ -1,191 +1,69 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Generic personal shell settings. Keep project and host settings elsewhere.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 COMPLETION_WAITING_DOTS="true"
+HIST_STAMPS="yyyy-mm-dd"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
+  ZSH_THEME="robbyrussell"
+  if [[ -d "${ZSH_CUSTOM:-$ZSH/custom}/themes/powerlevel10k" ]]; then
+    ZSH_THEME="powerlevel10k/powerlevel10k"
+  fi
+  plugins=()
+  for agent_config_plugin in brew colored-man-pages fzf-zsh-plugin git git-extras git-flow zsh-autosuggestions zsh-syntax-highlighting; do
+    if [[ -d "$ZSH/plugins/$agent_config_plugin" || -d "${ZSH_CUSTOM:-$ZSH/custom}/plugins/$agent_config_plugin" ]]; then
+      plugins+=("$agent_config_plugin")
+    fi
+  done
+  unset agent_config_plugin
+  source "$ZSH/oh-my-zsh.sh"
+else
+  autoload -Uz compinit
+  compinit
+fi
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HISTSIZE=10000000
+SAVEHIST=10000000
+HISTORY_IGNORE="(ls|cd|pwd|exit|cd)*"
+setopt EXTENDED_HISTORY INC_APPEND_HISTORY SHARE_HISTORY
+setopt HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_SAVE_NO_DUPS HIST_REDUCE_BLANKS
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+[[ -f "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
+[[ -f "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+[[ -d "$HOME/.docker/completions" ]] && fpath=("$HOME/.docker/completions" $fpath)
 
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-	brew
-	colored-man-pages
-	colorize
-	docker
-	docker-compose
-	fzf
-	git
-	git-extras
-	git-flow
-	macos
-	pip
-	python
-	virtualenv
-	#zsh-syntax-highlighting
-)
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
 
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export HISTSIZE=10000000
-export SAVEHIST=10000000
-export HISTFILESIZE=10000000
-export HISTCONTROLE=ignoredups
-export HISTORY_IGNORE="(ls|cd|pwd|exit|cd)*"
-export HIST_STAMPS="yyyy-mm-dd"
-
-setopt EXTENDED_HISTORY
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_SAVE_NO_DUPS
-setopt HIST_REDUCE_BLANKS
-
-export FZF_DEFAULT_COMMAND='ag --hidden -g ""'
-
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/opt/geometry/geometry.zsh
-
-### RG
-source ~/opt/rg/rgf
-
-RG_EXCLUDES=(build target node node_modules bower_components \
-                   '.idea' '.settings' '.git' '.svn' '.gradle' '*min.js' '*min.css' '*js.map' '*css.map')
-
-alias rG='noglob rgf -f ${=${(j: -f :)RG_EXCLUDES}}'
-alias rg='rG -i'
-
-declare -a lastoutput
-## RG
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-export PATH=$PATH:/usr/local/bin/protoc/bin
-export GO_PATH=~/go
-export PATH=$PATH:$GO_PATH/bin
-
-# NVM
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-# NVM
-#
-eval "$(pyenv init --path)"
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  source "$NVM_DIR/nvm.sh"
+elif command -v brew >/dev/null 2>&1; then
+  agent_config_brew_prefix="$(brew --prefix)"
+  [[ -s "$agent_config_brew_prefix/opt/nvm/nvm.sh" ]] && source "$agent_config_brew_prefix/opt/nvm/nvm.sh"
+  unset agent_config_brew_prefix
+fi
 
-# k8s
-[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
-alias k=kubectl
-complete -F __start_kubectl k
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init - zsh)"
+fi
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
-alias uuid="uuidgen | tr '[:upper:]' '[:lower:]'"
+if command -v kubectl >/dev/null 2>&1; then
+  alias k=kubectl
+  source <(kubectl completion zsh)
+  compdef _kubectl k
+fi
+alias cp='cp -i'
+if command -v pygmentize >/dev/null 2>&1; then
+  alias ccat='pygmentize -g'
+fi
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/mystic/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mystic/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/mystic/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mystic/google-cloud-sdk/completion.zsh.inc'; fi
-
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-function lk {
-  cd "$(walk "$@")"
-}
-export WALK_EDITOR=vim
-
-[ -s "/Users/mystic/.scm_breeze/scm_breeze.sh" ] && source "/Users/mystic/.scm_breeze/scm_breeze.sh"
-
-export VIRTUAL_ENV_DISABLE_PROMPT=0
-
-
-# Created by `pipx` on 2024-12-10 10:44:29
-export PATH="$PATH:/Users/mystic/.local/bin"
-
+[[ -f "$HOME/.config/agent-env/shell.sh" ]] && source "$HOME/.config/agent-env/shell.sh"

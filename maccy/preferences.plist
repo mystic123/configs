@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KeyboardShortcuts_delete</key>
+	<string>{"carbonModifiers":2048,"carbonKeyCode":51}</string>
+	<key>KeyboardShortcuts_pin</key>
+	<string>{"carbonKeyCode":35,"carbonModifiers":2048}</string>
+	<key>KeyboardShortcuts_popup</key>
+	<string>{"carbonKeyCode":9,"carbonModifiers":768}</string>
+	<key>KeyboardShortcuts_togglePreview</key>
+	<string>{"carbonKeyCode":49,"carbonModifiers":4096}</string>
+	<key>enabledPasteboardTypes</key>
+	<array>
+		<string>public.jpeg</string>
+		<string>public.html</string>
+		<string>public.utf8-plain-text</string>
+		<string>public.png</string>
+		<string>public.rtf</string>
+		<string>public.file-url</string>
+		<string>public.tiff</string>
+		<string>public.heic</string>
+	</array>
+	<key>historySize</key>
+	<integer>500</integer>
+	<key>pasteByDefault</key>
+	<true/>
+	<key>previewWidth</key>
+	<real>400.0</real>
+	<key>searchMode</key>
+	<string>fuzzy</string>
+	<key>showFooter</key>
+	<true/>
+	<key>showInStatusBar</key>
+	<false/>
+	<key>showSearch</key>
+	<true/>
+	<key>showTitle</key>
+	<true/>
+	<key>windowPosition</key>
+	<string>[0.7519968051118211,0.5943262411347517]</string>
+	<key>windowSize</key>
+	<string>[450,800]</string>
+</dict>
+</plist>
